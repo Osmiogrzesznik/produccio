@@ -1,6 +1,6 @@
 **PRODUCTION COUNTER**
 
-[img1](/sample-imgs/produccio-0.gif)
+![animation of working app](/sample-imgs/produccio-0.gif)
 
 
 ## Estimates order finish time, capability, draws production graph. Indicates and counts machine downtime.
