@@ -1,5 +1,8 @@
 **PRODUCTION COUNTER**
 
+[img1](/sample-imgs/produccio-0.gif)
+
+
 ## Estimates order finish time, capability, draws production graph. Indicates and counts machine downtime.
 
 Before you start, if you are continuing production and some parts have
