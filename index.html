@@ -1,0 +1,405 @@
+
+
+
+
+
+
+<!DOCTYPE HTML>
+
+<html><head>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+        <meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body>
+<meta name="viewport" content="width=device-width, height=device-height initial-scale=1, user-scalable=no"><meta name="format-detection" content="telephone=no"> <link rel="stylesheet" href="style.css" />
+
+
+</head>
+<body>
+
+
+<script src="B.js"></script>
+<script src="/Chart.bundle.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="titles">
+<div id="frm1" >
+<h3>
+PRODUCTION COUNTER
+</h3>
+<h5>
+Estimates order finish time, capability, draws production graph. Indicates and counts machine downtime.
+</h5>
+<h6>
+Before we start, if you are continuing production and some parts  have been done so far, or you have measured BTB cycle already you may provide these information to get more accurate estimates right away. However it is entirely optional, and program will run statistics normally even without these data, you may acquire better results and have more options, providing some of it.
+<br>
+<br>
+
+DEV W.I.P NOTES:
+<BR>
+
+<br>
+BUGs to do:
+
+
+<br>
+-SAVE DON'T WORK FOR CHART.JS MODULE(DOESN'T EVEN CREATE CANVAS FOR IT )
+
+
+<br>
+-taking break at start breaks averager? 
+
+
+
+<br>
+TO DO:
+
+
+<br>
+
+- cycles doesn't have to equal parts. i.e. 1cycle  may produce one pair. preset must include it
+<br>
+- availability to plan multiple different jobs one after another, plus break, setting time
+
+</h6>
+<div id="inputs">
+<div class="myform">
+
+<fieldset>
+<legend>Presets and saved states:</legend>
+
+
+
+<select id="presetsinp"
+onblur="setInpStartVals(presets[this.selectedIndex])"
+></select>
+<input 
+type="button" 
+value="Add Preset"
+onclick="inpt('preset')"
+>
+</input>
+
+</fieldset>
+<br>
+
+
+
+
+
+
+
+<fieldset>
+<legend>total batch size</legend>
+<input id="trgtinp" type="number" pattern="[0-9]*"
+value=""
+placeholder="To do / total order size">
+</input>
+<br>
+
+
+<br>
+
+when above target is to be achieved:
+
+<select id="endprodinp" 
+onchange="logValidateDDLValue(this.id,this.nextElementSibling.id,(a,b)=>a>b,Date.now(),endDate)"
+onblur="logValidateDDLValue(this.id,this.nextElementSibling.id,(a,b)=>a>b,Date.now(),endDate)"
+>
+</select>
+
+<input
+type="time"
+id="endprodtiminp" 
+value="06:00"
+onchange="logValidateDDLValue(this.previousElementSibling.id,this.id,(a,b)=>a>b,Date.now(),endDate)"
+>
+</input>
+
+
+<div id="Ld"></div>
+<div id="Ld2"></div>
+<div id="Ld3"></div>
+
+
+
+</fieldset>
+
+
+
+
+<br>
+
+
+<fieldset>
+<legend>amount of parts produced to this point</legend>
+<input
+    id="sofarinp"
+    value="" 
+    type="number" 
+    pattern="[0-9]*" 
+    min="0" 
+    placeholder="parts produced so far"
+    onchange="avgCalc('toggle button disable')">
+</input>
+<br>
+
+
+<fieldset>
+<legend>when started:(optional)</legend>
+
+<select id="startinp" 
+onchange="logValidateDDLValue(this.id,this.nextElementSibling.id,(a,b)=>a<b,Date.now(),endDate);avgCalc('toggle button disable')"
+onblur="logValidateDDLValue(this.id,this.nextElementSibling.id,(a,b)=>a<b,Date.now(),endDate);avgCalc('toggle button disable')"
+>
+</select>
+
+<input
+type="time"
+id="starttiminp"
+value="18:00"
+onchange=";logValidateDDLValue(this.previousElementSibling.id,this.id,(a,b)=>a<b,Date.now(),endDate);avgCalc('toggle button disable')"
+>
+</input>
+
+
+<div id="sLd"></div>
+<div id="sLd2"></div>
+<div id="sLd3"></div>
+</fieldset>
+
+<div id="avgcalc" 
+class="arrow_box disabled"
+onclick="avgCalc()" 
+onload="avgCalc('toggle button disable')"
+>calculate BTB from data above
+</div>
+
+
+
+</fieldset>
+
+
+<br>
+
+<fieldset>
+<legend>Button To Button cycle time</legend>
+
+<fieldset>
+<legend>BTB expressed in HOURS:MINUTES and :SECONDS</legend>
+<input id="sAvginp" 
+type="time"
+value="00:00"
+onfocus="B.Id('pphinp').disabled = true"
+>
+</input>
+<select id="sAvgSecinp"
+></select>
+</fieldset>
+OR
+
+
+<input id="pphinp" 
+type="number" 
+pattern="[0-9]*"
+placeholder="cycles/hour amount"
+onchange="sAvgToBTB(this,B.Id('sAvginp'),B.Id('sAvgSecinp'))"
+>pcs/h
+
+
+
+
+</input>
+<div id="La"></div>
+<div id="La2"></div>
+<br>
+</fieldset>
+<br>
+<input id="go" 
+class="big black steel"
+type="button"
+onclick="inpt()" 
+value="Go">
+</input>
+<br>
+<br>
+<div>
+<input
+type="button"
+id="loadbtn"
+class="steel"
+value="use pasted data instead:
+"
+onclick="loadFromJSON(this.nextElementSibling.value)"
+>
+
+</input>
+<textarea 
+id="dataload"
+rows=4
+placeholder="paste your start settings here"
+
+></textarea>
+</div>
+
+
+
+</div>
+</div>
+
+<h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</h1>
+
+
+
+
+
+
+
+</div></div><div id="counterinterface" class="nicefont" hidden="true">
+
+<canvas id="proGraphCanvas" style="border:1px solid #000000;"></canvas>
+
+<canvas id="canvas" style="border:1px solid #000000;" ></canvas>
+
+
+
+<div id="myProgress" class="warn">
+
+  <div id="myBar"></div>
+
+</div>
+
+
+<span class="underframetxt left" id="L1">X parts done on dd/mm/yyyy, hh:mm:ss</span>
+<span class="underframetxt right"><span id="L1pph">XX</span> parts/hour</span>
+
+
+
+
+
+<div id="controlpanel" class="flexcontainer buttonsRow">
+	<div class="third">
+		<input 
+		id="btnRUN" 
+		class="roundbutton green big" 
+		type="submit" 
+		onclick="cycleFinished()"
+		value="OK">
+		</input>
+	</div>
+	<div class="colOfBtn">
+		<input id="btnplus" 
+		class="roundbutton red small" 
+		type="submit" 
+		onclick="partPlus()"
+		value="+">
+		</input>
+
+		<input id="L1c" 
+		type="submit" 
+		class="smallcounter" 
+		value=0>
+		</input>
+
+		<input
+		id="btnminus" 
+		class="roundbutton red small" 
+		type="submit" 
+		onclick="partMinus()"
+		value="-">
+		</input>
+	</div>
+	<div class="third">
+		<input 
+		id="btnbreak" 
+		class="roundbutton blue big" 
+		type="submit" 
+		onclick="breakTime()" 
+		value="Start Break">
+		</input>
+	</div>
+</div>
+
+
+<div class="steellite">
+ <div class="flexcontainer">
+    <div id="L2e" class="third steellite"></div>
+    <div id="L2" class="third steellite"></div>
+
+
+
+ </div>
+
+ <div id="L3" class="steellite"></div>
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="steellite">
+<input
+type="button"
+id="savebtn"
+class="steel"
+value="create save state
+"
+onclick="inpt('save state')"
+>
+
+</input>
+<textarea id="datasave" 
+onfocus="this.select()"
+rows=40
+
+
+>
+</textarea>
+copy above data and paste into code/text area at start to keep them for later use
+</div>
+
+
+
+
+
+<div id="frm2">
+</div>
+
+
+
+
+
+<div class="underframetxt disabled" id="bottomlog"></div>
+
+
+
+ <script src="script.js"></script>
+</body>
+
