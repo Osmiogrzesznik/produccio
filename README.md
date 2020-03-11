@@ -1,6 +1,6 @@
-**PRODUCTION COUNTER**
+# PRODUCTION COUNTER
 
-![animation of working app](/sample-imgs/produccio-0.gif)
+
 
 
 ## Estimates order finish time, capability, draws production graph. Indicates and counts machine downtime.
@@ -22,3 +22,5 @@ TO DO:
 preset must include it
 - availability to plan multiple different jobs one after another, plus
 break, setting time**
+
+![animation of working app](/sample-imgs/produccio-0.gif)
