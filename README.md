@@ -5,6 +5,10 @@
 
 ## Estimates order finish time, capability, draws production graph. Indicates and counts machine downtime.
 
+This is private project, solving issue of predicting approximate time of finishing job orders. 
+When asked how long job batch production will take , just fire produccio up and keep pressing green button every cycle. Produccio will measure Button To Button (BTB) time and calculate prediction of every interesting aspect of job order.  Enables fine-grain control over the amount of parts produced every cycle and quick calculation involving break times or previously made parts.
+
+## 
 Before you start, if you are continuing production and some parts have
 been done so far, or you have measured BTB cycle already you may provide
 these information to get more accurate estimates right away. However it
