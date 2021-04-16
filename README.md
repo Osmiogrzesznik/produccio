@@ -1,7 +1,7 @@
 # PRODUCTION COUNTER
 
 
-[working demo](osmiogrzesznik.github.io/produccio/index22.html)
+[working demo](https://osmiogrzesznik.github.io/produccio/index22.html)
 
 ## Estimates order finish time, capability, draws production graph. Indicates and counts machine downtime.
 
